@@ -50,7 +50,7 @@ Copy `slack_rtm/conf/example-slack_rtm.conf `  to `conf/slack_rtm.conf`.
 
 #### Mail options
 
-* `mail_command`: Path to executable
+* `mail_command`: Path to executable to send mail.
     * args: `mail_subject`(formatted), `mail_from`, `mail_to` and `mail_command_options`(extracted).
     *  mail body is read from standard input.
 * `mail_from`
