@@ -65,8 +65,7 @@ Copy `slack_rtm/conf/example-slack_rtm.conf `  to `conf/slack_rtm.conf`.
 * `target_reactions`: If reaction name is in these, send mail to `mail_to`.
 * `success_reaction`: If `mail_command` succeed, add this reaction to the message.
 * `failure_reaction`: If `mail_command` failed, add this reaction to the message.
-
-api_endpoint="/slack_api/"
+* `api_endpoint`: Events API request URL.
 
 ### Configure request URL of your app
 
