@@ -40,7 +40,10 @@ There are required permissions of your app.
 
 ### Configure Slack RTM
 
-Copy `slack_rtm/conf/example-slack_rtm.conf` to `conf/slack_rtm.conf`.
+1. Copy [:/slack_rtm/conf/example-slack_rtm.conf](https://github.com/amane-katagiri/slack-rtm/blob/master/slack_rtm/conf/example-slack_rtm.conf) to `./conf/slack_rtm.conf`.
+1. Copy [:/slack_rtm/conf/example-mail.txt](https://github.com/amane-katagiri/slack-rtm/blob/master/slack_rtm/conf/example-mail.txt) to `./conf/mail.txt`.
+
+Tips: Leading `:/` will be replaced with cwd(`/path/to/slack-rtm/slack_rtm`) in `mail_command`(default: `:/bin/send_feed`) and `mail_body_file`(default: `./conf/mail.txt`)
 
 #### Credentials
 
