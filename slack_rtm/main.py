@@ -15,7 +15,7 @@ from tornado.options import define
 from tornado.options import options
 
 
-define("conf", default="conf/slack_rtm.conf")
+define("conf", default="./conf/slack_rtm.conf")
 define("slack_app_id", default="xxx", type=str)
 define("slack_verify_token", default="xxxxxx", type=str)
 define("slack_access_token", default="xxxx-xxx-xxx-xxx-xxxxxx", type=str)
