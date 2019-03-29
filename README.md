@@ -58,7 +58,7 @@ Tips: Leading `:/` will be replaced with cwd(`/path/to/slack-rtm/slack_rtm`) in 
     *  mail body is read from standard input.
 * `mail_from`
 * `mail_to`
-* `mail_command_options`: list of `mail_command` options (`:/bin/send_feed` uses [Heirloom mailx](http://heirloom.sourceforge.net/mailx.html). You can use `["-S", "smtp=smtp://smtp.example.com:25"]` in `heirloom-mailx` options.)
+* `mail_command_options`: list of `mail_command` options. [:/bin/send_feed](https://github.com/amane-katagiri/slack-rtm/blob/master/slack_rtm/bin/send_feed) uses [Heirloom mailx](http://heirloom.sourceforge.net/mailx.html) (example: `["-S", "smtp=smtp://smtp.example.com:25"]`).
 * `mail_subject`: Use Python string formatting style with `title` and `sitename`.
 * `mail_body_file`: Path to text file in Python string formatting style with `url` and `description` (sample: `slack_rtm/conf/example-mail.txt`).
 
