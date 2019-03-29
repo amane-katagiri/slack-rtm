@@ -24,15 +24,18 @@ define("target_channel_ids", default=[], type=list)
 define("target_reactions", default=["eyes"], type=list)
 define("success_reaction", default="email", type=str)
 define("failure_reaction", default="x", type=str)
-define("mail_command", default="./bin/send_feed", type=str)
+define("mail_command", default=":/bin/send_feed", type=str)
 define("mail_command_options", default=[], type=list)
 define("mail_subject", default="{title} - {sitename}", type=str)
 define("mail_body_file", default="./conf/mail.txt", type=str)
-define("mail_body", default="", type=str)
+define("mail_body", default="{url}\n\n{description}", type=str)
 define("mail_from", default="sender@example.com", type=str)
 define("mail_to", default="recipient@example.com", type=str)
 define("api_endpoint", default="/slack_api/", type=str)
 define("port", default=8000, type=int)
+
+EXAMPLE_CONF = pathlib.Path(__file__).resolve().parent / "conf" / "example-slack_rtm.conf"
+EXAMPLE_MAIL_BODY_FILE = pathlib.Path(__file__).resolve().parent / "conf" / "example-mail.txt"
 
 
 def _load_json(data: Union[str, bytes]) -> dict:
@@ -182,15 +185,47 @@ class SlackHandler(web.RequestHandler):
             logging.debug("recieved event: event_type='{}'".format(event_type))
 
 
-def main():
+def _update_collon_with_cwd():
+    cwd = pathlib.Path(__file__).resolve().parent
+    if options.conf[:2] == ":/":
+        options.conf = str(cwd / options.conf[2:])
+    if options.mail_command[:2] == ":/":
+        options.mail_command = str(cwd / options.mail_command[2:])
+    if options.mail_body_file[:2] == ":/":
+        options.mail_body_file = str(cwd / options.mail_body_file[2:])
+
+
+def _load_conf():
     options.parse_command_line()
+    _update_collon_with_cwd()
+
     if pathlib.Path(options.conf).is_file():
         options.parse_config_file(options.conf)
+        logging.info("load conf from '{}'.".format(options.conf))
+    elif EXAMPLE_CONF.is_file():
+        options.parse_config_file(EXAMPLE_CONF)
+        logging.warning("load example conf from '{}'.".format(EXAMPLE_CONF))
     else:
-        logging.warning("conf '{}' is not found.".format(options.conf))
+        logging.error("example conf '{}' is not found.".format(EXAMPLE_CONF))
+    _update_collon_with_cwd()
+
     options.parse_command_line()
-    with open(options.mail_body_file) as f:
-        options.mail_body = f.read()
+    _update_collon_with_cwd()
+
+    if pathlib.Path(options.mail_body_file).is_file():
+        with open(options.mail_body_file) as f:
+            options.mail_body = f.read()
+            logging.info("load mail body from '{}'.".format(options.mail_body_file))
+    elif pathlib.Path(EXAMPLE_MAIL_BODY_FILE).is_file():
+        with open(EXAMPLE_MAIL_BODY_FILE) as f:
+            options.mail_body = f.read()
+            logging.warning("load example mail body from '{}'.".format(EXAMPLE_MAIL_BODY_FILE))
+    else:
+        logging.error("example mail body file '{}' is not found.".format(EXAMPLE_MAIL_BODY_FILE))
+
+
+def main():
+    _load_conf()
 
     app = web.Application([
         (options.api_endpoint, SlackHandler, ),
