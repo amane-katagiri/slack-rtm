@@ -40,7 +40,7 @@ There are required permissions of your app.
 
 ### Configure Slack RTM
 
-Copy `slack_rtm/conf/example-slack_rtm.conf `  to `conf/slack_rtm.conf`.
+Copy `slack_rtm/conf/example-slack_rtm.conf` to `conf/slack_rtm.conf`.
 
 #### Credentials
 
@@ -57,7 +57,7 @@ Copy `slack_rtm/conf/example-slack_rtm.conf `  to `conf/slack_rtm.conf`.
 * `mail_to`
 * `mail_command_options`
 * `mail_subject`: Use Python string formatting style with `title` and `sitename`.
-* `mail_body_file`: Path to text file in Python string formatting style with `url` and `description`.
+* `mail_body_file`: Path to text file in Python string formatting style with `url` and `description` (sample: `slack_rtm/conf/example-mail.txt`).
 
 #### Subscribing Slack event options
 
