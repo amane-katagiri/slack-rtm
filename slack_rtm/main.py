@@ -73,12 +73,17 @@ async def _fetch_message(channel: str, ts: str) -> dict:
 
 
 async def _send_mail(subject: str, body: str, sender: str, recipient: str) -> int:
-    mail = await asyncio.create_subprocess_exec(
-        options.mail_command, subject, sender, recipient, *options.mail_command_options,
-        stdin=asyncio.subprocess.PIPE
-    )
-    await mail.communicate(bytes(body, encoding="utf-8"))
-    return mail.returncode
+    try:
+        mail = await asyncio.create_subprocess_exec(
+            options.mail_command, subject, sender, recipient, *options.mail_command_options,
+            stdin=asyncio.subprocess.PIPE
+        )
+        await mail.communicate(bytes(body, encoding="utf-8"))
+    except Exception as ex:
+        logging.error(str(ex))
+        return -1
+    else:
+        return mail.returncode
 
 
 async def _add_reaction(emoji: str, channel: str, ts: str) -> httpclient.HTTPResponse:
